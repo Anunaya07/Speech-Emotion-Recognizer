@@ -150,7 +150,7 @@ def extractFeature(filename, mfcc, chroma, mel):
 
 
 emotions = {'01':'neutral', '02': 'calm', '03':'happy', '04':'sad', '05':'angry', '06':'fear', '07':'disgust', '08':'surprise'}
-observedEmotions =['calm','happy', 'fearful', 'disgust']
+observedEmotions =['calm','happy', 'fearful', 'disgust', 'angry', 'sad', 'surprise', 'fear']
 
 
 def loadData(test_size=0.2):
@@ -173,9 +173,12 @@ xTrain, xTest, yTrain, yTest = loadData(test_size=0.23)
 print(xTrain.shape[0], xTest.shape[0])
 print(f'Features extracted: {xTrain.shape[1]}')
 
-model = MLPClassifier(alpha=0.01, batch_size = 256, epsilon=1e-08, hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=500)
-joblib.dump(model,'finalized_model.sav')
-model.fit(xTrain,yTrain)
+# model = MLPClassifier(alpha=0.01, batch_size = 256, epsilon=1e-08, hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=500)
+# joblib.dump(model,'finalized_model.sav')
+model = joblib.load('finalized_model.sav')
+# model.fit(xTrain,yTrain)
+# joblib.dump(model,'finalized_model_1.sav')
+
 
 expected_Of_y= yTest
 yPred = model.predict(xTest)
