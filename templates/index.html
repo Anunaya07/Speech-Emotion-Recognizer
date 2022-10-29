@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Emotion Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
+
+	<!-- Latest compiled and minified Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+   
+
+    <div id="speechContainer">
+        <br>
+        <h3>1 - Upload your .wav file  and Get Emotions</h3> 
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <input type="submit" id="submitButton" value="See Results"/>
+
+            <br>
+
+            <br>
+            <h3>2 - Record and Get Emotions</h3> 
+            <input type="submit" id="submitButton" value="Record 10 sec clip"/>
+        </form>
+
+        {% if transcript != "" %}
+       
+            <div id="speechTranscriptContainer">
+                <h1>Results</h1>
+                <p id="speechText">{{ transcript }}</p>
+                <br>
+                <br>
+
+                <p>
+                    <a href="{{ url_for('.download_file') }}">Download your Recording</a>
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+    <script src="{{ url_for('static', filename='js/WebAudioRecorder.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}" ></script>
+
+
+
+
+
+
+</body>
+</html>
