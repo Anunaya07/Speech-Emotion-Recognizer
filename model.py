@@ -20,6 +20,9 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
+import collections
+
+
 
 
 from IPython.display import Audio
@@ -50,18 +53,7 @@ path_df = pad.DataFrame(filePath, columns = ['Path'])
 Ravdess_df = pad.concat([emotion_df, path_df], axis =1)
 
 emotion_dict = {1:'neutral', 2: 'calm', 3:'happy', 4:'sad', 5:'angry', 6:'fear', 7:'disgust', 8:'surprise'}
-# emotion_dict = {'1':'neutral', '2': 'calm', '3':'happy', '4':'sad', '5':'angry', '6':'fear', '7':'disgust'}
-# Ravdess_df.replace({'Emotions':1}, 'neutral', inplace=True)
-# Ravdess_df.replace({'Emotions':2}, 'calm', inplace=True)
-# Ravdess_df.replace({'Emotions':3}, 'happy', inplace=True)
-# Ravdess_df.replace({'Emotions':4}, 'sad', inplace=True)
-# Ravdess_df.replace({'Emotions':5}, 'angry', inplace=True)
-# Ravdess_df.replace({'Emotions':6}, 'fear', inplace=True)
-# Ravdess_df.replace({'Emotions':7}, 'disgust', inplace=True)
-# Ravdess_df.replace({'Emotions':8}, 'surprise', inplace=True)
 
-# for i in emotion_dict:
-# Ravdess_df.replace({'Emotions':i}, emotion_dict[i], inplace=True)
 
 Ravdess_df.Emotions.replace(emotion_dict, inplace=True)
 
@@ -74,7 +66,14 @@ dataPath.to_csv("data_path.csv", index = False)
 # print(dataPath.head())
 
 # mplt.title('Count of Emotions', size = 16)
-# sbn.countplot(dataPath.Emotions)
+# df = pad.read_csv('data_path.csv')
+# df = list(df['Emotions'])
+# frequency = collections.Counter(df)
+# print(df)
+# # df = pad.DataFrame(list(dataPath['Emotions']))
+# # sbn.countplot(data = df)
+# sbn.barplot(x=list(frequency.keys()),y=list(frequency.values()))
+# # sbn.countplot(data=list(dataPath['Emotions']))
 # mplt.ylabel('Count', size = 12)
 # mplt.xlabel('Emotions', size = 12)
 # sbn.despine(top = True, right = True, left = False, bottom = False)
@@ -97,12 +96,7 @@ def createSpectrogram(data, sr, e):
     mplt.show()
 
 
-emotion= 'fear'
-path = nup.array(dataPath.Path[dataPath.Emotions==emotion])[1]
-data, samplingRate = librosa.load(path)
-# createWaveplot(data, samplingRate, emotion)
-# createSpectrogram(data, samplingRate, emotion)
-Audio(path)
+
 
 
 def noise(data):
@@ -121,10 +115,22 @@ def pitch(data, samplingRate, pitchFactor=0.7):
     return librosa.effects.pitch_shift(data, samplingRate, pitchFactor)
 
 
-x = noise(data)
-mplt.figure(figsize=(14,4))
-librosa.display.waveshow(y=x, sr=samplingRate)
-Audio(x, rate=samplingRate)
+
+
+# for i in emotion_dict:
+#     emotion= emotion_dict[i]
+#     print(emotion)
+#     path = nup.array(dataPath.Path[dataPath.Emotions==emotion])[1]
+#     data, samplingRate = librosa.load(path)
+#     # createWaveplot(data, samplingRate, emotion)
+#     # createSpectrogram(data, samplingRate, emotion)
+#     Audio(path)
+#     x = noise(data)
+#     mplt.figure(figsize=(14,4))
+#     mplt.title('Noise in audio with {} emotion'.format(emotion), size = 15)
+#     librosa.display.waveshow(y=x, sr=samplingRate)
+#     mplt.show()
+#     Audio(x, rate=samplingRate)
 
 
 def extractFeature(filename, mfcc, chroma, mel):
@@ -168,26 +174,26 @@ def loadData(test_size=0.2):
 
     return train_test_split(nup.array(x),y, test_size=test_size, random_state=9)
 
-xTrain, xTest, yTrain, yTest = loadData(test_size=0.23)
+# xTrain, xTest, yTrain, yTest = loadData(test_size=0.23)
 
-print(xTrain.shape[0], xTest.shape[0])
-print(f'Features extracted: {xTrain.shape[1]}')
+# print(xTrain.shape[0], xTest.shape[0])
+# print(f'Features extracted: {xTrain.shape[1]}')
 
-# model = MLPClassifier(alpha=0.01, batch_size = 256, epsilon=1e-08, hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=500)
-# joblib.dump(model,'finalized_model.sav')
-model = joblib.load('finalized_model.sav')
-# model.fit(xTrain,yTrain)
-# joblib.dump(model,'finalized_model_1.sav')
+# # model = MLPClassifier(alpha=0.01, batch_size = 256, epsilon=1e-08, hidden_layer_sizes=(300,), learning_rate='adaptive', max_iter=500)
+# # joblib.dump(model,'finalized_model.sav')
+# model = joblib.load('finalized_model.sav')
+# # model.fit(xTrain,yTrain)
+# # joblib.dump(model,'finalized_model_1.sav')
 
 
-expected_Of_y= yTest
-yPred = model.predict(xTest)
-print(yPred, expected_Of_y)
+# expected_Of_y= yTest
+# yPred = model.predict(xTest)
+# print(yPred, expected_Of_y)
 
-print(metrics.confusion_matrix(expected_Of_y, yPred))
+# print(metrics.confusion_matrix(expected_Of_y, yPred))
 
-print(classification_report(yTest, yPred))
+# print(classification_report(yTest, yPred))
 
-accuracy = accuracy_score(y_true=yTest, y_pred=yPred)
+# accuracy = accuracy_score(y_true=yTest, y_pred=yPred)
 
-print("Accuracy: {}".format(accuracy*100))
+# print("Accuracy: {}".format(accuracy*100))
