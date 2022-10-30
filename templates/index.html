@@ -25,10 +25,9 @@
             </div>
             <div id="mainListDiv" class="main_list">
                 <ul class="navlinks">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#">Find Mood</a></li>
-                    <li><a href="#">Download Recording</a></li>
-                    <li><a href="#">Buy me a coffee</a></li>
+                    <li><a href="#about">Home</a></li>
+                    <li><a href="#findMood">Find Mood</a></li>
+                    <li><a href="https://www.buymeacoffee.com/">Buy me a coffee</a></li>
                 </ul>
             </div>
             <span class="navTrigger">
@@ -50,44 +49,47 @@
             <path class="a3" d="M0 40 L30 72 L60 40"></path>
         </svg>
         {% if transcript != "" %}
-       
-            <div id="speechTranscriptContainer">
-                <h1>Results</h1>
-                <p id="speechText" style="color: white">{{ transcript }}</p>
-                <section id="download">
-                    <h3>
-                        <a href="{{ url_for('.download_file') }}">Download your Recording</a>
-                    </h3>
-                </section>
-            </div>
+
+        <div id="speechTranscriptContainer">
+            <!-- <h3>Results</h3> -->
+            <h1 id="speechText" style="color: white; margin-top: 1em;">{{ transcript }}</h1>
+            <section id="download">
+                <h3>
+                    <a href="{{ url_for('.download_file') }}">Download your Recording</a>
+                </h3>
+            </section>
+        </div>
         {% endif %}
     </section>
 
     <!-- Find Mood Section -->
-    <section id ="findMood">
+    <section id="findMood">
 
         <!-- Upload button -->
         <div class="upload">
-            <h3>1 - Upload your .wav file</h3> 
-        <form method="post" enctype="multipart/form-data">
+            <h2>1 - Upload your .wav file</h2>
+            <form method="post" enctype="multipart/form-data">
 
-            <input type="file" name="file"/>
-            <br>
-            <input class="button" type="submit" id="submitButton" value="See Results"/>
-            <br>
-            <!-- <input type="submit" id="submitButton" value="See Results"/> -->
-        </form>
-
-    </div>
-    
-    <!-- Record button -->
-        <div class="record">
-            <h3>2 - Record 10 sec clip</h3> 
-        <form method="post" enctype="multipart/form-data">
-
-            <input class="button" type="submit" id="submitButton" value="Record 10 sec clip"/>
+                <input type="file" name="file" />
+                <br>
+                <input class="button" type="submit" id="submitButton" value="See Results" />
+                <br>
+                <!-- <input type="submit" id="submitButton" value="See Results"/> -->
             </form>
-        
+
+        </div>
+
+        <!-- Record button -->
+        <div class="record">
+            <h2>2 - Record 10 sec clip</h2>
+            <form method="post" enctype="multipart/form-data">
+                <br>
+                <progress value="0" max="10" id="progressBar"></progress>
+                <br>
+                <input class="button" type="submit" id="submitButton" value="Record 10 sec clip"
+                    onclick="showPopUp()" />
+            </form>
+
         </div>
     </section>
 
@@ -105,7 +107,7 @@
         {% endif %} -->
 
     <!-- download recording -->
-   
+
 
     <!-- footer -->
     <hr>
@@ -130,6 +132,16 @@
 
     <!-- Function used to shrink nav bar removing paddings and adding black background -->
     <script>
+        showPopUp=()=>{
+            var timeleft = 10;
+            var downloadTimer = setInterval(function () {
+                if (timeleft <= 0) {
+                    clearInterval(downloadTimer);
+                }
+                document.getElementById("progressBar").value = 10 - timeleft;
+                timeleft -= 1;
+            }, 1000);
+        }
         $(window).scroll(function () {
             if ($(document).scrollTop() > 50) {
                 $('.nav').addClass('affix');

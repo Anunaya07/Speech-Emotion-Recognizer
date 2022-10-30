@@ -14,7 +14,7 @@ body {
     font-size: 62.5%;
     font-size: 10px;
     background-color: #00253b;
-    background: linear-gradient(90deg, #000000, #001a2b 50%, #000000);
+    background: linear-gradient(90deg, #000000, #001a2b 0%, #000000);
     overflow-x: hidden;
     color: #45b1f4;
 }
@@ -25,6 +25,10 @@ ul {
 
 a {
     text-decoration: none;
+    color: #03e9f4;
+}
+a:hover {
+    color: #0d476e;
 }
 
 h1,
@@ -124,8 +128,8 @@ p {
   
 
 #about {
-    margin-top: 25em;
-    height: 90vh;
+    padding-top: 30em;
+    height: 100vh;
     text-align: center;
 
 }
@@ -133,10 +137,11 @@ p {
 #findMood{
     display: flex;
     width: 60vw;
-    height: 50vh;
+    height: 80vh;
     margin: auto;
     text-align: center;
     justify-content: space-around;
+    padding-top: 10em;
 }
 
 #download{
