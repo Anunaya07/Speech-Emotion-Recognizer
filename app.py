@@ -79,7 +79,9 @@ def loadData(file):
         x.append(feature)
     return x
 
+# app = Flask(__name__, static_folder='./static')
 app = Flask(__name__)
+
 
 
 @app.route("/", methods=["GET", "POST"])
